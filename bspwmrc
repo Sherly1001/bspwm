@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#
+# bspc configs
+#
+
+export ws_ic_1=
+export ws_ic_2=
+export ws_ic_3=
+export ws_ic_4=
+export ws_ic_5=
+export ws_ic_6=
+export ws_ic_7=
+export ws_ic_8=
+export ws_ic_9=
+export ws_ic_0=
+
+bspc monitor -d $ws_ic_1 $ws_ic_2 $ws_ic_3 $ws_ic_4 $ws_ic_5 $ws_ic_6 $ws_ic_7 $ws_ic_8 $ws_ic_9 $ws_ic_0
+
+bspc config border_width        2
+bspc config window_gap          20
+
+bspc config split_ratio         0.5
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+
+#
+# bspc rules
+#
+
+bspc rule -a copyq state=floating
+bspc rule -a TelegramDesktop desktop='^4'
+
+#
+# xconfig
+#
+
+xsetroot -cursor_name left_ptr
+xinput set-prop 'DELL0844:00 04F3:3074 Touchpad' 'libinput Tapping Enabled' 1
+xinput set-prop 'DELL0844:00 04F3:3074 Touchpad' 'libinput Natural Scrolling Enabled' 1
+
+amixer set Master 100
+amixer set Speaker 70%
+amixer set Headphone 30%
+
+#
+# daemons
+#
+
+sxhkd -c ~/.config/bspwm/sxhkdrc & disown
+polybar -r -c ~/.config/bspwm/polybar.conf bar1 > /dev/null 2>&1 & disown
+
+picom --config ~/.config/bspwm/picom.conf & disown
+numlockx
+flameshot & disown
+copyq & disown
+
+export GTK_IM_MODULE='ibus'
+export QT_IM_MODULE='ibus'
+export XMODIFIERS='@im=ibus'
+ibus-daemon -drx
+
+feh --no-fehbg --bg-max ~/.config/bspwm/mirai.png
+
+#
+# startup applications
+#
+
+telegram-desktop & disown
